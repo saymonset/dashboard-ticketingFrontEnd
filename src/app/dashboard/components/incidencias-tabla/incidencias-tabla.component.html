@@ -23,7 +23,10 @@
     </div>
   </div>
     <div class="d-grid gap-2">
-      <button class="btn btn-dark" type="button">Nueva Incidencia</button>
+      <button class="btn btn-dark"
+              type="button"
+              [disabled]="isAdmin"
+              (click)="onNuevoIncidencia()">Nueva Incidencia</button>
     </div>
 </div>
 <div *ngIf="incidencias.length === 0; else table" class="alert alert-warning text-center">
@@ -47,10 +50,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let incidencia of incidencias; let i = index">
-                <td (click)="emitCharacter(incidencia._id)">{{ i + 1 }}</td>
+              <tr
+
+                *ngFor="let incidencia of incidencias; let i = index">
+                <td (click)="emitCharacter(incidencia._id)"><a  class="link-primary">Incidencia #{{ i + 1 }}</a></td>
                 <td>{{  incidencia.mensaje}}</td>
-                <td>{{ incidencia.estado }}</td>
+
+                <td *ngIf="isAdmin"  (click)="onEstadoIncidencia(incidencia._id)"><a  class="link-primary">{{ incidencia.estado }}</a></td>
+                <td *ngIf="!isAdmin" >{{ incidencia.estado }}</td>
               </tr>
             </tbody>
           </table>

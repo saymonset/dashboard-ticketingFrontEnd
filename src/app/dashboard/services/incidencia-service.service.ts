@@ -2,11 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, map, tap, of } from 'rxjs';
 import {
+  CrearIncidencia,
   CrearResposeIncidencia,
   DetallesIncidencia,
   Incidencia,
   ResponIncidencias,
-  ResposeIncidencia
+  ResposeIncidencia,
+  UpdateIncidencia
 } from '../interfaces/incidencia-request.interface';
 import {searchBy} from "../interfaces/search-incidencia.interface";
 
@@ -40,11 +42,46 @@ export class IncidenciaServiceService {
 
 
   geDetallesIncidencias(id:string): Observable<ResposeIncidencia[]> {
-//return this.http.patch<Hero>(`${ this.baseUrl }/heroes/${ hero.id }`, hero );
     return this.http.get<DetallesIncidencia>(`${ this.baseUrl }/resincidencias/${id}`)
       .pipe(
         map( response => {
           return response.respose_incidencias} ),
+        tap( console.log ),
+      );
+  }
+
+  createIncidencias(newIncidencia:CrearIncidencia): Observable<Incidencia> {
+    return this.http.post<DetallesIncidencia>(`${ this.baseUrl }/incidencias`,newIncidencia)
+      .pipe(
+         map( response => {
+          return response} ),
+        tap( console.log ),
+      );
+  }
+
+  updateIncidencias(updateIncidencia:UpdateIncidencia,incidencia:string): Observable<Incidencia> {
+    //console.log(`simons =${ JSON.stringify(incidencia)}`)
+    console.log(`${ this.baseUrl }/incidencias/${incidencia}`+ JSON.stringify(updateIncidencia));
+    return this.http.put<UpdateIncidencia>(`${ this.baseUrl }/incidencias/${incidencia}`,updateIncidencia)
+      .pipe(
+        map( response => {
+          return response} ),
+        tap( console.log ),
+      );
+  }
+
+
+  createResponseIncidencias(newIncidencia:CrearResposeIncidencia): Observable<ResposeIncidencia> {
+    return this.http.post<CrearResposeIncidencia>(`${ this.baseUrl }/resincidencias`,newIncidencia)
+      .pipe(
+        map( response => {
+          newIncidencia={
+            mensaje:  '',
+            archivo:    '',
+            usuario:    '',
+            incidencia: '',
+          };
+          return response} ),
         tap( console.log ),
       );
   }

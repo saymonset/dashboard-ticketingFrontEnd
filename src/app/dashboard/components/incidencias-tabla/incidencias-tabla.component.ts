@@ -1,6 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Incidencia } from '../../interfaces/incidencia-request.interface';
 import {searchBy} from "../../interfaces/search-incidencia.interface";
+import { IncidenciaTablaDialogComponent } from '../incidencia-tabla-dialog/incidencia-tabla-dialog.component';
+import {
+  IncidenciaTablaCambioEstadoDialogoComponent
+} from "../incidencia-tabla-cambio-estado-dialogo/incidencia-tabla-cambio-estado-dialogo.component";
 
 @Component({
   selector: 'incidencias',
@@ -8,12 +13,20 @@ import {searchBy} from "../../interfaces/search-incidencia.interface";
   styleUrls: ['./incidencias-tabla.component.css']
 })
 export class IncidenciasTablaComponent implements OnInit {
+  public  isAdmin : boolean = false;
   ngOnInit(): void {
+
+    if(localStorage.getItem('isAdmin')){
+      this.isAdmin = localStorage.getItem('isAdmin')?.toString()=='true';
+    }
+
     this.busqueda = {
             estado:    '',
             mensaje:   ''
           }
   }
+
+  public dialog = inject(MatDialog);
 
   @Input()
   public incidencias: Incidencia[] = [];
@@ -24,6 +37,14 @@ export class IncidenciasTablaComponent implements OnInit {
   @Output()
   public onNewCharacter: EventEmitter<string> = new EventEmitter();
 
+  @Output()
+  public onRefrescar: EventEmitter<boolean> = new EventEmitter();
+
+
+
+  // constructor(dialog:MatDialog){
+
+  // }
 
   /***Busqueda emitir valores */
   @Output()
@@ -66,6 +87,39 @@ export class IncidenciasTablaComponent implements OnInit {
     this.onNewCharacter.emit('');
     this.busqueda.mensaje=term;
     this.onSearchIncidencia.emit(this.busqueda);
+  }
+
+  onNuevoIncidencia(){
+    const dialogRef = this.dialog.open(IncidenciaTablaDialogComponent, {
+      data: {mensaje: 'Hellos', estado: 'En curso'},
+      height: '400px',
+      width: '80%',
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if ( result) {
+        this.onRefrescar.emit(result);
+      }
+    });
+  }
+
+
+  onEstadoIncidencia(id:string){
+    const dialogRef = this.dialog.open(IncidenciaTablaCambioEstadoDialogoComponent, {
+      data:   id,
+      height: '400px',
+      width: '80%',
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if ( result) {
+        this.onRefrescar.emit(result);
+      }
+    });
   }
 
 }

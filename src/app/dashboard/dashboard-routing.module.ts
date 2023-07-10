@@ -15,8 +15,8 @@ const routes: Routes = [
       { path: 'inventario', component: InventarioComponent },
       { path: 'incidencias', component: IncidenciaComponent },
       { path: 'devoluciones', component: DevolucionesComponent },
-     
-      { path: '**', redirectTo: 'pedidos' },
+
+      { path: '**', redirectTo: 'incidencias' },
     ]
   }
 ];

@@ -31,8 +31,8 @@ export class AuthService {
     this._currentUser.set( user );
     this._authStatus.set( AuthStatus.authenticated );
     localStorage.setItem('token', token);
- 
- 
+
+
     return true;
   }
 
@@ -41,12 +41,24 @@ export class AuthService {
 
   login( email: string, password: string ): Observable<boolean> {
 ///auth/login
-    const url  = `${ this.baseUrl }/auth/login`;
+    const url  = `${ this.baseUrl }/authcreateuser/login`;
     const body = { correo:email, password };
 
     return this.http.post<LoginResponse>( url, body )
       .pipe(
-        map( ({ user, token }) => this.setAuthentication( user, token )),
+        map( ({ user, token }) =>{
+          let {rol, uid, nombre } = user;
+
+          localStorage.removeItem('uidIncidencia');
+          localStorage.setItem('isAdmin', 'false');
+          localStorage.setItem('uid', uid);
+          localStorage.setItem('nombre', nombre);
+          if (rol=='ADMIN_ROLE'){
+            localStorage.setItem('isAdmin', 'true');
+          }
+
+          return this.setAuthentication( user, token );
+        } ),
         catchError( err => throwError( () => {err.error.message }))
       );
   }

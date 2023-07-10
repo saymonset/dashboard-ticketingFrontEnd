@@ -7,6 +7,7 @@
               <incidencias [incidencias]="incidencias"
                            (onNewCharacter)="obtenerId($event)"
                            (onSearchIncidencia)="onSearchIncidencia($event)"
+                           (onRefrescar)="refrescarIncidencias($event)"
               ></incidencias>
             </div>
         </div>
@@ -20,13 +21,15 @@
             <incidencias [incidencias]="incidencias"
                          (onNewCharacter)="obtenerId($event)"
                          (onSearchIncidencia)="onSearchIncidencia($event)"
+                         (onRefrescar)="refrescarIncidencias($event)"
                          ></incidencias>
         </div>
 
         <div class="col-8">
             <hr>
             <incidencia-detalles-table
-              [detallesincidencias]="detallesincidencias" >
+              [detallesincidencias]="detallesincidencias"
+              (onRefrescar)="refrescarResponseIncidencias($event)">
             </incidencia-detalles-table>
         </div>
     </div>

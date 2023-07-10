@@ -11,6 +11,10 @@ import { DevolucionesComponent } from './pages/devoluciones/devoluciones.compone
 import { IncidenciasTablaComponent } from './components/incidencias-tabla/incidencias-tabla.component';
 import { IncidenciaDetallesTableComponent } from './components/incidencia-detalles-table/incidencia-detalles-table.component';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
+import { IncidenciaTablaDialogComponent } from './components/incidencia-tabla-dialog/incidencia-tabla-dialog.component';
+import { MaterialModule } from '../material/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { IncidenciaTablaCambioEstadoDialogoComponent } from './components/incidencia-tabla-cambio-estado-dialogo/incidencia-tabla-cambio-estado-dialogo.component';
 
 @NgModule({
   declarations: [
@@ -22,11 +26,15 @@ import { SearchBoxComponent } from './components/search-box/search-box.component
     DevolucionesComponent,
     IncidenciasTablaComponent,
     IncidenciaDetallesTableComponent,
-    SearchBoxComponent
+    SearchBoxComponent,
+    IncidenciaTablaDialogComponent,
+    IncidenciaTablaCambioEstadoDialogoComponent
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    MaterialModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardModule { }

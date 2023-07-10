@@ -7,6 +7,7 @@ export interface DetallesIncidencia {
 }
 
 
+
 export interface ResposeIncidencia {
   _id:        string;
   mensaje:    string;
@@ -40,6 +41,15 @@ export interface Usuario {
 export interface CrearResposeIncidencia {
   mensaje:    string;
   archivo:    string;
-  usuario:    string;
+  usuario:    string | undefined;
   incidencia: string;
+}
+
+export interface CrearIncidencia{
+  incidencia:string,
+  tipo_incidencia:string,
+  mensaje:string
+}
+export interface UpdateIncidencia{
+  estado:string
 }

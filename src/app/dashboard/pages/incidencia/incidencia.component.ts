@@ -34,25 +34,49 @@ export class IncidenciaComponent implements OnInit {
       });
   }
   ngOnInit(): void {
+
     this.buscarIncidencias();
   }
 
+
+  refrescarIncidencias(refrescar:boolean):void{
+    if (refrescar){
+      this.buscarIncidencias();
+    }
+  }
+
+  refrescarResponseIncidencias(refrescar:boolean):void{
+    if (refrescar){
+      let id = localStorage.getItem('uidIncidencia');
+      if (id){
+        this.obtenerId(id);
+      }
+
+    }
+  }
+
   obtenerId(id:string):void{
-    this.idBuscarDetalle = id;
-    if (this.idBuscarDetalle){
-      console.log(`this.idBuscarDetalle = ${this.idBuscarDetalle }`);
-      console.log(`this.idBuscarDetalle = ${JSON.stringify(this.idBuscarDetalle)}`);
-      this.incidenciaServiceService.geDetallesIncidencias(this.idBuscarDetalle )
-        .subscribe({
-          next: (data) => {
-            if(data){
-              this.detallesincidencias = data;
-              console.log(`Cliente: ${data}`);
-            }
-          },
-          error: () => {
-          },
-        });
+
+    if (id){
+      this.idBuscarDetalle = id;
+      if (this.idBuscarDetalle){
+        if (id){
+          localStorage.setItem('uidIncidencia',id);
+          this.incidenciaServiceService.geDetallesIncidencias(this.idBuscarDetalle )
+            .subscribe({
+              next: (data) => {
+                if(data){
+                  this.detallesincidencias = data;
+                }
+              },
+              error: () => {
+              },
+            });
+        }
+    }
+
+
+
     }
   }
 

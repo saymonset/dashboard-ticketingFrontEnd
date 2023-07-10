@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { isAuthenticatedGuard } from './auth/guards/is-authenticated.guard';
 
 const routes: Routes = [
- 
+
   {
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardModule ),
   },
-  
+
   {
     path: 'auth',
    // canActivate: [ isNotAuthenticatedGuard ],
@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'dashboard'
+    redirectTo: 'auth'
   },
 ];
 
