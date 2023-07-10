@@ -27,6 +27,9 @@ export class IncidenciaServiceService {
 
   getIncidencias(busqueda:searchBy): Observable<Incidencia[]> {
 
+    if (!busqueda.estado){
+      busqueda.estado='en-curso'
+    }
     const params = new HttpParams()
       .set('estado', busqueda.estado)
       .set('mensaje', busqueda.mensaje);
